@@ -1,0 +1,152 @@
+apiVersion: phenix.sandia.gov/v1
+kind: Topology
+metadata:
+  name: minisub 
+spec:
+  networks:
+    - name: relaynet
+      subnet: 10.10.10.0/24
+  nodes:
+    - name: rtu
+      type: VirtualMachine
+
+      general:
+        hostname: rtu
+        vm_type: kvm
+      
+      injections:
+        - src: injects/rtu.py
+          dst: /root/rtu.py
+          mode: 0644
+        
+      hardware:
+        os_type: linux
+        memory: 512
+        vcpus: 1
+        drives:
+          - image: fielddev.qc2
+            interface: virtio
+
+      network:
+        interfaces:
+          - name: eth0
+            type: ethernet
+            proto: static
+            address: 10.10.10.10
+            mask: 24
+            vlan: relaynet
+    - name: ied1
+      type: VirtualMachine
+
+      general:
+        hostname: ied1
+        vm_type: kvm
+      
+      injections:
+        - src: injects/ied.py
+          dst: /root/ied.py
+          mode: 0644
+        
+      hardware:
+        os_type: linux
+        memory: 512
+        vcpus: 1
+        drives:
+          - image: fielddev.qc2
+            interface: virtio
+
+      network:
+        interfaces:
+          - name: eth0
+            type: ethernet
+            proto: static
+            address: 10.10.10.11
+            mask: 24
+            vlan: relaynet
+
+    - name: ied2
+      type: VirtualMachine
+
+      general:
+        hostname: ied2
+        vm_type: kvm
+      
+      injections:
+        - src: injects/ied.py
+          dst: /root/ied.py
+          mode: 0644
+
+      hardware:
+        os_type: linux
+        memory: 512
+        vcpus: 1
+        drives:
+          - image: fielddev.qc2
+            interface: virtio
+
+      network:
+        interfaces:
+          - name: eth0
+            type: ethernet
+            proto: static
+            address: 10.10.10.12
+            mask: 24
+            vlan: relaynet
+    
+    - name: ied3
+      type: VirtualMachine
+
+      general:
+        hostname: ied3
+        vm_type: kvm
+      
+      injections:
+        - src: injects/ied.py
+          dst: /root/ied.py
+          mode: 0644
+
+      hardware:
+        os_type: linux
+        memory: 512
+        vcpus: 1
+        drives:
+          - image: fielddev.qc2
+            interface: virtio
+
+      network:
+        interfaces:
+          - name: eth0
+            type: ethernet
+            proto: static
+            address: 10.10.10.13
+            mask: 24
+            vlan: relaynet
+    
+    - name: ied4
+      type: VirtualMachine
+
+      general:
+        hostname: ied4
+        vm_type: kvm
+      
+      injections:
+        - src: injects/ied.py
+          dst: /root/ied.py
+          mode: 0644
+
+      hardware:
+        os_type: linux
+        memory: 512
+        vcpus: 1
+        drives:
+          - image: fielddev.qc2
+            interface: virtio
+
+      network:
+        interfaces:
+          - name: eth0
+            type: ethernet
+            proto: static
+            address: 10.10.10.14
+            mask: 24
+            vlan: relaynet
