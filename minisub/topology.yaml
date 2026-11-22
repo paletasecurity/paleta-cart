@@ -15,9 +15,12 @@ spec:
         vm_type: kvm
       
       injections:
-        - src: injects/rtu.py
-          dst: /root/rtu.py
-          mode: 0644
+        - src: injects/rtu.xml
+          dst: /etc/ot-sim/config.xml
+          permissions: "0644"
+        - src: injects/start-ot-sim.sh
+          dst: /etc/phenix/startup/90-ot-sim.sh
+          permissions: "0755"
         
       hardware:
         os_type: linux
@@ -43,9 +46,12 @@ spec:
         vm_type: kvm
       
       injections:
-        - src: injects/ied.py
-          dst: /root/ied.py
-          mode: 0644
+        - src: injects/ied1.xml
+          dst: /etc/ot-sim/config.xml
+          permissions: "0644"
+        - src: injects/start-ot-sim.sh
+          dst: /etc/phenix/startup/90-ot-sim.sh
+          permissions: "0755"
         
       hardware:
         os_type: linux
@@ -72,9 +78,12 @@ spec:
         vm_type: kvm
       
       injections:
-        - src: injects/ied.py
-          dst: /root/ied.py
-          mode: 0644
+        - src: injects/ied2.xml
+          dst: /etc/ot-sim/config.xml
+          permissions: "0644"
+        - src: injects/start-ot-sim.sh
+          dst: /etc/phenix/startup/90-ot-sim.sh
+          permissions: "0755"
 
       hardware:
         os_type: linux
@@ -101,9 +110,12 @@ spec:
         vm_type: kvm
       
       injections:
-        - src: injects/ied.py
-          dst: /root/ied.py
-          mode: 0644
+        - src: injects/ied3.xml
+          dst: /etc/ot-sim/config.xml
+          permissions: "0644"
+        - src: injects/start-ot-sim.sh
+          dst: /etc/phenix/startup/90-ot-sim.sh
+          permissions: "0755"
 
       hardware:
         os_type: linux
@@ -130,9 +142,12 @@ spec:
         vm_type: kvm
       
       injections:
-        - src: injects/ied.py
-          dst: /root/ied.py
-          mode: 0644
+        - src: injects/ied4.xml
+          dst: /etc/ot-sim/config.xml
+          permissions: "0644"
+        - src: injects/start-ot-sim.sh
+          dst: /etc/phenix/startup/90-ot-sim.sh
+          permissions: "0755"
 
       hardware:
         os_type: linux

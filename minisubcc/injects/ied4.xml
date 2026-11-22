@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ot-sim>
+  <!-- ied4: feeder protection relay emulated in OT-sim. The logic module models the feeder (breaker, 12.47 kV, load current, kW); the Modbus server exposes it. Coil 0 = breaker closed (write 0 to trip). -->
+  <message-bus>
+    <pull-endpoint>tcp://127.0.0.1:1234</pull-endpoint>
+    <pub-endpoint>tcp://127.0.0.1:5678</pub-endpoint>
+  </message-bus>
+  <cpu>
+    <module name="backplane">ot-sim-message-bus {{config_file}}</module>
+    <module name="modbus">ot-sim-modbus-module {{config_file}}</module>
+    <module name="logic">ot-sim-logic-module {{config_file}}</module>
+  </cpu>
+  <logic name="feeder-4">
+    <period>1s</period>
+    <process-updates>true</process-updates>
+    <program><![CDATA[
+      closed = closed
+      kv = kv
+      amps = closed > 0.5 ? load_amps : 0
+      kw = amps * kv * 1.732
+    ]]></program>
+    <variables>
+      <closed tag="breaker.closed">1</closed>
+      <load_amps tag="feeder.load-amps">260</load_amps>
+      <kv tag="feeder.kv">12.47</kv>
+      <amps tag="feeder.amps">260</amps>
+      <kw tag="feeder.kw">5615</kw>
+    </variables>
+  </logic>
+  <modbus name="ied4" mode="server">
+    <endpoint>0.0.0.0:502</endpoint>
+    <register type="coil"><address>0</address><tag>breaker.closed</tag></register>
+    <register type="input"><address>30001</address><tag>feeder.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30002</address><tag>feeder.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30003</address><tag>feeder.kw</tag></register>
+  </modbus>
+</ot-sim>

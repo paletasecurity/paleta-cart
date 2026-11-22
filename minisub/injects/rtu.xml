@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<ot-sim>
+  <!-- rtu: substation RTU / data concentrator emulated in OT-sim. Polls the four IEDs over Modbus TCP and serves their points upstream as a DNP3 outstation (TCP 20000, outstation 1024, master 1). DNP3 binary outputs 10-13 open/close the IED breakers. -->
+  <message-bus>
+    <pull-endpoint>tcp://127.0.0.1:1234</pull-endpoint>
+    <pub-endpoint>tcp://127.0.0.1:5678</pub-endpoint>
+  </message-bus>
+  <cpu>
+    <module name="backplane">ot-sim-message-bus {{config_file}}</module>
+    <module name="modbus">ot-sim-modbus-module {{config_file}}</module>
+    <module name="dnp3">ot-sim-dnp3-module {{config_file}}</module>
+  </cpu>
+  <modbus name="poll-ied1" mode="client">
+    <endpoint>10.10.10.11:502</endpoint>
+    <period>2s</period>
+    <register type="coil"><address>0</address><tag>ied1.closed</tag></register>
+    <register type="input"><address>30001</address><tag>ied1.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30002</address><tag>ied1.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30003</address><tag>ied1.kw</tag></register>
+  </modbus>
+  <modbus name="poll-ied2" mode="client">
+    <endpoint>10.10.10.12:502</endpoint>
+    <period>2s</period>
+    <register type="coil"><address>0</address><tag>ied2.closed</tag></register>
+    <register type="input"><address>30001</address><tag>ied2.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30002</address><tag>ied2.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30003</address><tag>ied2.kw</tag></register>
+  </modbus>
+  <modbus name="poll-ied3" mode="client">
+    <endpoint>10.10.10.13:502</endpoint>
+    <period>2s</period>
+    <register type="coil"><address>0</address><tag>ied3.closed</tag></register>
+    <register type="input"><address>30001</address><tag>ied3.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30002</address><tag>ied3.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30003</address><tag>ied3.kw</tag></register>
+  </modbus>
+  <modbus name="poll-ied4" mode="client">
+    <endpoint>10.10.10.14:502</endpoint>
+    <period>2s</period>
+    <register type="coil"><address>0</address><tag>ied4.closed</tag></register>
+    <register type="input"><address>30001</address><tag>ied4.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30002</address><tag>ied4.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30003</address><tag>ied4.kw</tag></register>
+  </modbus>
+  <dnp3 name="rtu-outstation" mode="server">
+    <endpoint>0.0.0.0:20000</endpoint>
+    <cold-restart-delay>15</cold-restart-delay>
+    <outstation name="rtu">
+      <local-address>1024</local-address>
+      <remote-address>1</remote-address>
+      <warm-restart-delay>5</warm-restart-delay>
+      <input type="binary"><address>0</address><tag>ied1.closed</tag><svar>Group1Var1</svar><evar>Group2Var1</evar><class>Class1</class></input>
+      <output type="binary"><address>10</address><tag>ied1.closed</tag><svar>Group10Var2</svar><evar>Group11Var2</evar><class>Class1</class><sbo>false</sbo></output>
+      <input type="binary"><address>1</address><tag>ied2.closed</tag><svar>Group1Var1</svar><evar>Group2Var1</evar><class>Class1</class></input>
+      <output type="binary"><address>11</address><tag>ied2.closed</tag><svar>Group10Var2</svar><evar>Group11Var2</evar><class>Class1</class><sbo>false</sbo></output>
+      <input type="binary"><address>2</address><tag>ied3.closed</tag><svar>Group1Var1</svar><evar>Group2Var1</evar><class>Class1</class></input>
+      <output type="binary"><address>12</address><tag>ied3.closed</tag><svar>Group10Var2</svar><evar>Group11Var2</evar><class>Class1</class><sbo>false</sbo></output>
+      <input type="binary"><address>3</address><tag>ied4.closed</tag><svar>Group1Var1</svar><evar>Group2Var1</evar><class>Class1</class></input>
+      <output type="binary"><address>13</address><tag>ied4.closed</tag><svar>Group10Var2</svar><evar>Group11Var2</evar><class>Class1</class><sbo>false</sbo></output>
+      <input type="analog"><address>0</address><tag>ied1.kv</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>1</address><tag>ied2.kv</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>2</address><tag>ied3.kv</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>3</address><tag>ied4.kv</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>4</address><tag>ied1.amps</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>5</address><tag>ied2.amps</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>6</address><tag>ied3.amps</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>7</address><tag>ied4.amps</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>8</address><tag>ied1.kw</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>9</address><tag>ied2.kw</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>10</address><tag>ied3.kw</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+      <input type="analog"><address>11</address><tag>ied4.kw</tag><svar>Group30Var6</svar><evar>Group32Var6</evar><class>Class1</class></input>
+    </outstation>
+  </dnp3>
+</ot-sim>

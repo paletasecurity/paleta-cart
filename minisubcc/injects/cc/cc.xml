@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<ot-sim>
+  <!-- cc: control-center SCADA front end emulated in OT-sim. DNP3 master polling the RTU over utilwan (192.168.10.2:20000), with a local Modbus view of the same points (coils 0-3 = breakers; write 0 to trip through DNP3 -> RTU -> IED). -->
+  <message-bus>
+    <pull-endpoint>tcp://127.0.0.1:1234</pull-endpoint>
+    <pub-endpoint>tcp://127.0.0.1:5678</pub-endpoint>
+  </message-bus>
+  <cpu>
+    <module name="backplane">ot-sim-message-bus {{config_file}}</module>
+    <module name="dnp3">ot-sim-dnp3-module {{config_file}}</module>
+    <module name="modbus">ot-sim-modbus-module {{config_file}}</module>
+  </cpu>
+  <dnp3 name="scada-master" mode="client">
+    <endpoint>192.168.10.2:20000</endpoint>
+    <master name="rtu">
+      <local-address>1</local-address>
+      <remote-address>1024</remote-address>
+      <scan-rate>5</scan-rate>
+      <input type="binary"><address>0</address><tag>ied1.closed</tag></input>
+      <output type="binary"><address>10</address><tag>ied1.closed</tag><sbo>false</sbo></output>
+      <input type="binary"><address>1</address><tag>ied2.closed</tag></input>
+      <output type="binary"><address>11</address><tag>ied2.closed</tag><sbo>false</sbo></output>
+      <input type="binary"><address>2</address><tag>ied3.closed</tag></input>
+      <output type="binary"><address>12</address><tag>ied3.closed</tag><sbo>false</sbo></output>
+      <input type="binary"><address>3</address><tag>ied4.closed</tag></input>
+      <output type="binary"><address>13</address><tag>ied4.closed</tag><sbo>false</sbo></output>
+      <input type="analog"><address>0</address><tag>ied1.kv</tag></input>
+      <input type="analog"><address>1</address><tag>ied2.kv</tag></input>
+      <input type="analog"><address>2</address><tag>ied3.kv</tag></input>
+      <input type="analog"><address>3</address><tag>ied4.kv</tag></input>
+      <input type="analog"><address>4</address><tag>ied1.amps</tag></input>
+      <input type="analog"><address>5</address><tag>ied2.amps</tag></input>
+      <input type="analog"><address>6</address><tag>ied3.amps</tag></input>
+      <input type="analog"><address>7</address><tag>ied4.amps</tag></input>
+      <input type="analog"><address>8</address><tag>ied1.kw</tag></input>
+      <input type="analog"><address>9</address><tag>ied2.kw</tag></input>
+      <input type="analog"><address>10</address><tag>ied3.kw</tag></input>
+      <input type="analog"><address>11</address><tag>ied4.kw</tag></input>
+    </master>
+  </dnp3>
+  <modbus name="cc-view" mode="server">
+    <endpoint>0.0.0.0:502</endpoint>
+    <register type="coil"><address>0</address><tag>ied1.closed</tag></register>
+    <register type="coil"><address>1</address><tag>ied2.closed</tag></register>
+    <register type="coil"><address>2</address><tag>ied3.closed</tag></register>
+    <register type="coil"><address>3</address><tag>ied4.closed</tag></register>
+    <register type="input"><address>30001</address><tag>ied1.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30002</address><tag>ied2.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30003</address><tag>ied3.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30004</address><tag>ied4.kv</tag><scaling>2</scaling></register>
+    <register type="input"><address>30005</address><tag>ied1.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30006</address><tag>ied2.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30007</address><tag>ied3.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30008</address><tag>ied4.amps</tag><scaling>1</scaling></register>
+    <register type="input"><address>30009</address><tag>ied1.kw</tag></register>
+    <register type="input"><address>30010</address><tag>ied2.kw</tag></register>
+    <register type="input"><address>30011</address><tag>ied3.kw</tag></register>
+    <register type="input"><address>30012</address><tag>ied4.kw</tag></register>
+  </modbus>
+</ot-sim>
