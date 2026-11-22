@@ -13,13 +13,13 @@ spec:
       type: VirtualMachine
 
       general:
-        hostname: rtu
+        hostname: cc
         vm_type: kvm
       
       injections:
-        - src: injects/rtu.py
-          dst: /root/rtu.py
-          mode: 0644
+        - src: injects/cc/cc.py
+          dst: /root/cc.py
+          permissions: "0644"
         
       hardware:
         os_type: linux
@@ -34,7 +34,7 @@ spec:
           - name: eth0
             type: ethernet
             proto: static
-            address: 192.168.1.1
+            address: 192.168.10.1
             mask: 24
             vlan: utilwan
 
@@ -48,7 +48,7 @@ spec:
       injections:
         - src: injects/rtu.py
           dst: /root/rtu.py
-          mode: 0644
+          permissions: "0644"
         
       hardware:
         os_type: linux
@@ -69,7 +69,7 @@ spec:
           - name: eth1
             type: ethernet
             proto: static
-            address: 192.168.1.2
+            address: 192.168.10.2
             mask: 24
             vlan: utilwan
     - name: ied1
@@ -82,7 +82,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
         
       hardware:
         os_type: linux
@@ -111,7 +111,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
 
       hardware:
         os_type: linux
@@ -140,7 +140,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
 
       hardware:
         os_type: linux
@@ -169,7 +169,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
 
       hardware:
         os_type: linux

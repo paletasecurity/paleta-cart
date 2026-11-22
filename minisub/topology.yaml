@@ -17,7 +17,7 @@ spec:
       injections:
         - src: injects/rtu.py
           dst: /root/rtu.py
-          mode: 0644
+          permissions: "0644"
         
       hardware:
         os_type: linux
@@ -45,7 +45,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
         
       hardware:
         os_type: linux
@@ -74,7 +74,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
 
       hardware:
         os_type: linux
@@ -103,7 +103,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
 
       hardware:
         os_type: linux
@@ -132,7 +132,7 @@ spec:
       injections:
         - src: injects/ied.py
           dst: /root/ied.py
-          mode: 0644
+          permissions: "0644"
 
       hardware:
         os_type: linux
